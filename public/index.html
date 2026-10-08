@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Detector</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            margin: 0;
+            background: #f9f9f9;
+            height: 100vh; /* Exactly 100% of viewport height */
+            box-sizing: border-box;
+            overflow: hidden; /* Prevent body scrolling */
+        }
+        .controls {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+            overflow-y: auto; /* Individual scrollbar */
+        }
+        .preview {
+            flex: 2;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            overflow: auto; /* Individual scrollbar for large images */
+            height: 100%;
+            box-sizing: border-box;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px dashed #ccc;
+        }
+        textarea {
+            background: #2d2d2d;
+            color: #4ade80;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: monospace;
+            flex: 1; /* Fill remaining vertical space */
+            resize: none; /* Disable dragging resize */
+            border: none;
+            outline: none;
+        }
+        button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2 style="margin-top: 0;">Checkbox Detector</h2>
+        <input type="file" id="imageInput" accept="image/*">
+        <div style="display: flex; gap: 10px;">
+            <button id="uploadBtn">Run Detection</button>
+        </div>
+
+        <details>
+            <summary style="cursor: pointer; font-weight: bold;">Advanced Tweak Settings</summary>
+            <div style="display: flex; flex-direction: column; gap: 5px; margin-top: 10px; font-size: 14px;">
+                <label>Adaptive Block Size: <input type="number" id="adaptive_block_size" value="15" style="width: 60px; float: right;"></label>
+                <label>Adaptive C: <input type="number" id="adaptive_c" step="0.1" value="5.0" style="width: 60px; float: right;"></label>
+                <label>Approx Epsilon: <input type="number" id="approx_epsilon_frac" step="0.01" value="0.02" style="width: 60px; float: right;"></label>
+                <label>Min Aspect Ratio: <input type="number" id="min_aspect_ratio" step="0.1" value="0.85" style="width: 60px; float: right;"></label>
+                <label>Max Aspect Ratio: <input type="number" id="max_aspect_ratio" step="0.1" value="1.3" style="width: 60px; float: right;"></label>
+                <label>Min Area: <input type="number" id="min_area" value="200" style="width: 60px; float: right;"></label>
+                <label>Max Area: <input type="number" id="max_area" value="5000" style="width: 60px; float: right;"></label>
+                <label>Collision Rel Thres: <input type="number" id="collision_rel_thres" step="0.1" value="0.4" style="width: 60px; float: right;"></label>
+                <label>Is Checked Thres (%): <input type="number" id="is_checked_thres" step="1" value="10.0" style="width: 60px; float: right;"></label>
+            </div>
+        </details>
+        
+        <h3 style="margin-bottom: 0;">JSON Output</h3>
+        <textarea id="jsonOutput" readonly>No data yet...</textarea>
+    </div>
+    
+    <div class="preview">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        const input = document.getElementById('imageInput');
+        const btn = document.getElementById('uploadBtn');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        let currentImage = null;
+
+        // When the user selects an image, draw it on the canvas immediately
+        input.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = () => {
+                // Resize canvas to match the original image exactly
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                currentImage = img;
+            };
+            img.src = url;
+            jsonOutput.value = "Ready to upload...";
+        });
+
+        async function runDetection(baseUrl) {
+            const file = input.files[0];
+            if (!file) {
+                alert('Please select an image first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            btn.disabled = true;
+            jsonOutput.value = "Uploading and processing...";
+
+            try {
+                // Build the query string with our advanced settings
+                const params = new URLSearchParams({
+                    adaptive_block_size: document.getElementById('adaptive_block_size').value,
+                    adaptive_c: document.getElementById('adaptive_c').value,
+                    approx_epsilon_frac: document.getElementById('approx_epsilon_frac').value,
+                    min_aspect_ratio: document.getElementById('min_aspect_ratio').value,
+                    max_aspect_ratio: document.getElementById('max_aspect_ratio').value,
+                    min_area: document.getElementById('min_area').value,
+                    max_area: document.getElementById('max_area').value,
+                    collision_rel_thres: document.getElementById('collision_rel_thres').value,
+                    is_checked_thres: document.getElementById('is_checked_thres').value,
+                });
+                
+                const url = baseUrl + '?' + params.toString();
+
+                // Send request to our Go API
+                const res = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await res.json();
+                
+                // Pretty-print the JSON output
+                jsonOutput.value = JSON.stringify(data, null, 2);
+
+                // Clear any previous drawings by redrawing the base image
+                if (currentImage) {
+                    ctx.drawImage(currentImage, 0, 0);
+                }
+
+                // Draw the detected boxes
+                if (data.boxes) {
+                    data.boxes.forEach(box => {
+                        const [x1, y1, x2, y2] = box.bbox;
+                        const width = x2 - x1;
+                        const height = y2 - y1;
+
+                        // Fill it with lighter translucent green if checked, red if not
+                        if (box.is_checked) {
+                            ctx.fillStyle = "rgba(0, 255, 0, 0.2)";
+                        } else {
+                            ctx.fillStyle = "rgba(255, 0, 0, 0.2)";
+                        }
+                        
+                        ctx.fillRect(x1, y1, width, height);
+                    });
+                }
+            } catch (err) {
+                jsonOutput.value = "Error: " + err.message;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // When the user clicks Run Detection
+        btn.addEventListener('click', () => runDetection('/api/detect'));
+    </script>
+</body>
+</html>
+

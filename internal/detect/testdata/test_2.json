@@ -1,0 +1,436 @@
+{
+	"boxes": [
+		{
+			"bbox": [
+				1138,
+				2904,
+				1191,
+				2949
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				963,
+				2904,
+				1016,
+				2949
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				2854,
+				2291,
+				2899
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				2854,
+				2066,
+				2899
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				2854,
+				1816,
+				2899
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				2804,
+				2291,
+				2849
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				2804,
+				2066,
+				2849
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				2804,
+				1816,
+				2849
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				2754,
+				2291,
+				2799
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				2754,
+				2066,
+				2799
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				2754,
+				1816,
+				2799
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				2704,
+				2291,
+				2749
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				2704,
+				2066,
+				2749
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				2704,
+				1816,
+				2749
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1113,
+				1654,
+				1166,
+				1699
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				963,
+				1654,
+				1016,
+				1699
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2238,
+				1304,
+				2291,
+				1349
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				1304,
+				2066,
+				1349
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				1304,
+				1816,
+				1349
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				1363,
+				1304,
+				1416,
+				1349
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1150,
+				1304,
+				1203,
+				1349
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2238,
+				1254,
+				2291,
+				1299
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2013,
+				1254,
+				2066,
+				1299
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				1254,
+				1816,
+				1299
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				1204,
+				2291,
+				1249
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				1204,
+				2066,
+				1249
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				1204,
+				1816,
+				1249
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2238,
+				1154,
+				2291,
+				1199
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				1154,
+				2066,
+				1199
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				1763,
+				1154,
+				1816,
+				1199
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				1104,
+				2291,
+				1149
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2013,
+				1104,
+				2066,
+				1149
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				1104,
+				1816,
+				1149
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				1054,
+				2291,
+				1099
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				1054,
+				2066,
+				1099
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				1763,
+				1054,
+				1816,
+				1099
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2238,
+				954,
+				2291,
+				999
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				954,
+				2066,
+				999
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				954,
+				1816,
+				999
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2238,
+				904,
+				2291,
+				949
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				904,
+				2066,
+				949
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				904,
+				1816,
+				949
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2238,
+				854,
+				2291,
+				899
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				854,
+				2066,
+				899
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				854,
+				1816,
+				899
+			],
+			"is_checked": true
+		},
+		{
+			"bbox": [
+				2238,
+				804,
+				2291,
+				849
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				2013,
+				804,
+				2066,
+				849
+			],
+			"is_checked": false
+		},
+		{
+			"bbox": [
+				1763,
+				804,
+				1816,
+				849
+			],
+			"is_checked": true
+		}
+	]
+}

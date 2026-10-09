@@ -78,6 +78,22 @@ You can configure the application using a `.env` file or environment variables.
 curl -F "image=@photo.jpg" http://localhost:8080/api/detect
 ```
 
+**Example Response:**
+```json
+{
+  "boxes": [
+    {
+      "bbox": [150, 300, 180, 330],
+      "is_checked": true
+    },
+    {
+      "bbox": [150, 360, 180, 390],
+      "is_checked": false
+    }
+  ]
+}
+```
+
 ## Engineering Notes
 
 **Personal Note:** I used this challenge as an opportunity to step out of my comfort zone and learn two technologies I hadn't worked with before: **Go** and **Computer Vision**.

@@ -2,20 +2,19 @@
 
 Gin-based HTTP API and web interface for OpenCV checkbox detection.
 
-## Project Structure
+## Table of Contents
+- [Live Demo](#live-demo)
+- [Setup & Running](#setup--running)
+- [Configuration](#configuration)
+- [API Endpoints](#api-endpoints)
+- [Engineering Notes](#engineering-notes)
 
-```text
-.
-├── cmd/
-│   └── api/            # Application entrypoint (main package)
-├── internal/
-│   └── detect/         # Detection services, config, handlers, and router
-├── public/             # Static frontend files (index.html, styles)
-├── Dockerfile          # Multi-stage Docker build
-├── .env                # Environment configuration variables
-├── go.mod
-└── go.sum
-```
+## Live Demo
+
+A live demo of the application with a web interface is deployed and available at:
+**[https://checkbox-detector.facus.ar/](https://checkbox-detector.facus.ar/)**
+
+I chose to deploy this service on Render because it natively supports deploying directly from a `Dockerfile`, which made it incredibly straightforward to host the necessary OpenCV dependencies.
 
 ## Setup & Running
 
@@ -79,8 +78,23 @@ You can configure the application using a `.env` file or environment variables.
 curl -F "image=@photo.jpg" http://localhost:8080/api/detect
 ```
 
-## Known Limitations
+## Engineering Notes
 
-- **Tilted Checkboxes**: The current contour detection algorithm expects boxes to be axis-aligned. Checkboxes that are significantly rotated or skewed are not supported.
-- **Image Noise**: Images with heavy artifacting, noise, or poor lighting may degrade detection accuracy and lead to suboptimal results. For best performance, use clear, well-lit scans or high-quality photos.
-- **Concurrency**: This service performs CPU-intensive image processing synchronously on the HTTP request thread. It is not currently optimized for high concurrency or heavy production traffic. To support a large volume of requests, a dedicated background queue/worker architecture (e.g., using Redis or RabbitMQ) would be required to process images asynchronously.
+**Personal Note:** I used this challenge as an opportunity to step out of my comfort zone and learn two technologies I hadn't worked with before: **Go** and **Computer Vision**.
+
+### Design Decisions & Approach
+When I looked at the example images provided for this challenge, I assumed that the system would generally process clear images with square checkboxes. Because of this assumption, I decided to use a direct computer vision approach (OpenCV) rather than trying to train a Machine Learning model. This decision made sense to me because it is a fast and simple solution that easily handles the provided examples, and it completely avoids the need to gather and label a large training dataset.
+
+The core algorithm uses OpenCV and works in three main steps:
+1. **Preprocessing:** The image is converted to grayscale, and an adaptive threshold is applied to obtain a binary (black and white) image.
+2. **Contour Detection:** OpenCV's contour algorithm finds shapes in the binary image, which the program filters to identify squares that could be checkboxes.
+3. **State Evaluation:** Once a checkbox is detected, I calculate the percentage of non-background pixels inside it. If this percentage is greater than a defined threshold, the checkbox is considered "checked".
+
+### Limitations & Downsides
+While this approach works well for the provided examples, relying on those assumptions leads to a few weak points:
+- **Image Quality:** Because I assumed the inputs would be clear and square, the results can be heavily affected by image noise, poor quality, or if the checkboxes are marked heavily over the edges.
+- **Rotation:** It does not support checkboxes or images rotated at an angle. While the contour algorithm can identify rotated shapes, the logic that evaluates if the box is checked currently assumes a straight, axis-aligned square.
+- **Concurrency:** This service performs CPU-intensive image processing synchronously on the HTTP request thread. It would struggle with high concurrency in its current state.
+
+### Future Improvements
+If I were to prepare this for a high-traffic production environment, I would opt for an asynchronous queue/worker architecture (e.g., using Redis or RabbitMQ) to process the images without blocking the web server.

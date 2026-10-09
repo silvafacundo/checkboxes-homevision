@@ -18,8 +18,6 @@ import (
 )
 
 func main() {
-	// Attempt to load .env file. We ignore the error because in production,
-	// a .env file might not exist and we rely on system env vars instead.
 	_ = godotenv.Load()
 
 	cfg := config.Load()

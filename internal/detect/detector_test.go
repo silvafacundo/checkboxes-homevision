@@ -98,7 +98,7 @@ func matchBoxes(t *testing.T, expected, actual []detect.Box) {
 			// If centers are within 50% of the box width, they are the same box
 			if math.Hypot(ecx-acx, ecy-acy) < ew*0.5 {
 				if e.IsChecked != a.IsChecked {
-					t.Errorf("Box at (%d, %d) matched, but IsChecked differs. Expected %v, got %v", 
+					t.Errorf("Box at (%d, %d) matched, but IsChecked differs. Expected %v, got %v",
 						int(ecx), int(ecy), e.IsChecked, a.IsChecked)
 				}
 				matched[j] = true

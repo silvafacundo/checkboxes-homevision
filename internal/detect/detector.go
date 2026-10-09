@@ -92,6 +92,7 @@ func (d *detector) Detect(_ context.Context, img []byte, opts DetectOptions) (De
 		}
 		approx.Close()
 
+		// Check if the shape has 4 vertices (VerticesCount is typically 4 for a rectangle)
 		if vertices != opts.VerticesCount || rect.Dy() == 0 {
 			continue
 		}
@@ -99,6 +100,7 @@ func (d *detector) Detect(_ context.Context, img []byte, opts DetectOptions) (De
 		aspectRatio := float64(rect.Dx()) / float64(rect.Dy())
 		area := gocv.ContourArea(cnt)
 
+		// Check if it has a square-like aspect ratio and a reasonable size for a checkbox
 		if aspectRatio >= opts.MinAspectRatio && aspectRatio <= opts.MaxAspectRatio &&
 			area > opts.MinArea && area < opts.MaxArea {
 			box := Checkbox{

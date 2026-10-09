@@ -37,7 +37,7 @@ func TestRemoveCollisions(t *testing.T) {
 			},
 			relativeThreshold: 0.4,
 			// Threshold is 40 pixels (100 * 0.4). Hypotenuse of (5,5) is ~7.07, so it's a collision.
-			expectedCount: 1, 
+			expectedCount: 1,
 		},
 		{
 			name: "Multiple collisions and one distinct",

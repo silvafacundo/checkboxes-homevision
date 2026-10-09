@@ -35,7 +35,11 @@ func (h *DetectHandler) Detect(c *gin.Context) {
 
 	fileHeader, err := c.FormFile("image")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "No image provided"})
+		if err.Error() == "http: request body too large" {
+			c.JSON(http.StatusRequestEntityTooLarge, gin.H{"error": "Image exceeds maximum allowed size"})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No image provided or invalid request"})
 		return
 	}
 
